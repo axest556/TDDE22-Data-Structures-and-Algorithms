@@ -79,8 +79,8 @@ public class SymbolTable {
      */
     
     public void put(String key, Character val) {
-        if (key == null) {
-            throw new IllegalArgumentException("Key cannot be null");
+        if (key == null || key.isEmpty()) {
+        	return;
         }
         
         // If value is null, we treat it as a delete operation
