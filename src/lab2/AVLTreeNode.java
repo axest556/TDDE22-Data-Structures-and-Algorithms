@@ -1,3 +1,5 @@
+package lab2;
+
 
 /**
  * Contains the AVL Tree Node, with rotations and corresponding help functions.
@@ -77,26 +79,64 @@ public class AVLTreeNode<T extends Comparable<T>> {
      * @param data - Generic element parameter to be inserted.
      * @return AVLTreeNode containing the appropriate node for the call position, after insertion.
      */
-    public AVLTreeNode<T> insert(T data) {	
-	if (data.compareTo(element) < 0) {
-	    // the key we insert is smaller than the current node
-	    if (left == null) {
-		left = new AVLTreeNode<>(data);
-	    } else {
-		left = left.insert(data);
-	    }
-	} else if (element.compareTo(data) < 0) {
-	    // the key we insert is greater than the current node
-	    if (right == null) {
-		right = new AVLTreeNode<>(data);
-	    } else {
-		right = right.insert(data);
-	    }
-	} else {
-	    throw new AVLTreeException("Element already exists.");
+	public AVLTreeNode<T> insert(T data) {
+		
+		if (data.compareTo(element) < 0) {
+			// the key we insert is smaller than the current node
+			if (left == null) {
+				left = new AVLTreeNode<>(data);
+			} else {
+				left = left.insert(data);
+			}
+		} else if (element.compareTo(data) < 0) {
+			// the key we insert is greater than the current node
+			if (right == null) {
+				right = new AVLTreeNode<>(data);
+			} else {
+				right = right.insert(data);
+			}
+		} else {
+			throw new AVLTreeException("Element already exists.");
+		}
+
+		// Update the height of this node
+		calculateHeight(this);
+		
+		// Now we need to check if the tree is balanced!
+
+		// Calculate Balance Factor for current node
+		int balanceFactor = nodeHeight(left) - nodeHeight(right);
+		
+		// If not balanced, check what rotations need to be done
+		if (balanceFactor > 1) {
+			// Left-heavy case 
+			
+			// Check if single or double rotation needed
+			// I.e., checking if the Left Child Node has a Left or Right Child itself
+			if (data.compareTo(left.element) < 0) {
+				// Left-Left-heavy case: SINGLE RIGHT ROTATION
+				return singleRotationWithLeftChild(this);
+			} else if (data.compareTo(left.element) > 0) {
+				// Left-Right-heavy case: LEFT-RIGHT DOUBLE ROTATION
+				return doubleRotationWithLeftChild(this);
+			}			
+		} else if (balanceFactor < -1) {
+			// Right-heavy case
+			
+			// Check if single or double rotation needed
+			// I.e., checking if the Right Child Node has a Left or Right Child itself
+			if (data.compareTo(right.element) > 0) {
+				// Right-Right-heavy case: SINGLE LEFT ROTATION
+				return singleRotationWithRightChild(this);
+			} else if (data.compareTo(right.element) < 0) {
+				// Right-Left-heavy case: RIGHT-LEFT DOUBLE ROTATION
+				return doubleRotationWithRightChild(this);
+			}
+		}
+		
+		return this;
+
 	}
-	return this;
-    }
 
     /**
      * Returns the height of (sub) tree node.

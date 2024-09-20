@@ -1,3 +1,5 @@
+package lab2;
+
 import org.w3c.dom.Node;
 
 import java.awt.*;
