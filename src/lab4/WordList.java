@@ -1,3 +1,5 @@
+package lab4;
+
 import java.util.Vector;
 import java.io.*;
 

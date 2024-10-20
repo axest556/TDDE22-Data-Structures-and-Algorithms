@@ -1,3 +1,4 @@
+package lab2_5;
 import java.awt.Color;
 import java.util.Random;
 

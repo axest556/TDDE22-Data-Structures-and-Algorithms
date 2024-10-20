@@ -1,3 +1,4 @@
+package lab2_5;
 
 public class TestMinPQ {
     public static void main(String[] args) {
@@ -23,7 +24,7 @@ public class TestMinPQ {
 	h = new MinPQ<Integer>();
 	for(int i = 37; i != 0; i = (i + 37) % maxItem) {
 	    if(i >= minItem) {
-		h.toss(i);
+		h.insert(i);
 	    }
 	}
 

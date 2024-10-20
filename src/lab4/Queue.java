@@ -1,3 +1,5 @@
+package lab4;
+
 /**
  * A simple queue class with the methods enqueue, dequeue, isEmpty and
  * empty. Should need no modifications (even though some things are,

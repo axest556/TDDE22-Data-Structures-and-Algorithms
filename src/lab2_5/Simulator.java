@@ -1,3 +1,5 @@
+package lab2_5;
+
 import java.awt.Color;
 import java.io.File;
 import java.util.ArrayList;

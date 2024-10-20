@@ -5,6 +5,9 @@
  *
  * @author Magnus Nielsen, Tommy Färnqvist
  */
+
+package lab4;
+
 class LongestChain {
     private Queue q; // queue used in the BFS
     private String goalWord; // goal word of the BFS

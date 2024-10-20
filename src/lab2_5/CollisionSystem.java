@@ -1,4 +1,4 @@
-
+package lab2_5;
 import java.awt.Color;
 
 /**
@@ -39,14 +39,14 @@ public class CollisionSystem {
         for (int i = 0; i < particles.length; i++) {
             double dt = a.timeToHit(particles[i]);
             if (t + dt <= limit)
-                pq.toss(new Event(t + dt, a, particles[i]));
+                pq.insert(new Event(t + dt, a, particles[i]));
         }
 
         // particle-wall collisions
         double dtX = a.timeToHitVerticalWall();
         double dtY = a.timeToHitHorizontalWall();
-        if (t + dtX <= limit) pq.toss(new Event(t + dtX, a, null));
-        if (t + dtY <= limit) pq.toss(new Event(t + dtY, null, a));
+        if (t + dtX <= limit) pq.insert(new Event(t + dtX, a, null));
+        if (t + dtY <= limit) pq.insert(new Event(t + dtY, null, a));
     }
 
     // redraw all particles
@@ -58,10 +58,9 @@ public class CollisionSystem {
         StdDraw.show();
         StdDraw.pause(20);
         if (t < limit) {
-            pq.toss(new Event(t + 1.0 / HZ, null, null));
+            pq.insert(new Event(t + 1.0 / HZ, null, null));
         }
     }
-
       
     /**
      * Simulates the system of particles for the specified amount of time.
@@ -75,7 +74,7 @@ public class CollisionSystem {
         for (int i = 0; i < particles.length; i++) {
             predict(particles[i], limit);
         }
-        pq.toss(new Event(0, null, null));        // redraw event
+        pq.insert(new Event(0, null, null));        // redraw event
 
 
         // the main event-driven simulation loop

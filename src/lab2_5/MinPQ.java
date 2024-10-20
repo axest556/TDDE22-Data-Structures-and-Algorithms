@@ -1,4 +1,4 @@
-
+package lab2_5;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -77,7 +77,23 @@ public class MinPQ<Key_Class> {
      * @param  x the key to be added to the queue.
      */
     public void insert(Key_Class x) {
-	throw new MinPQError("Insert needs to be implemented!");
+        if (x == null) {
+            throw new IllegalArgumentException("Cannot insert null into the priority queue");
+        }
+
+        // Resize the array if necessary
+        if (count == pq.length - 1) {
+            resize(2 * pq.length);
+        }
+
+        // Insert the new element at the end
+        pq[++count] = x;
+
+        // Restore the heap property by swimming up
+        swim(count);
+
+        // Optional: Assert that the heap invariant holds
+        assert isMinHeap();
     }
 
     /**

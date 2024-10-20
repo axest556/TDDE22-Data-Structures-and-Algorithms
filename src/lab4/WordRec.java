@@ -1,3 +1,5 @@
+package lab4;
+
 /** 
  * WordRec represents a word and their parent in the graph, and can be
  * (is) used to represent word chains.
