@@ -1,5 +1,5 @@
 /**
- * The LongestChain class contains the necessary data to perform
+q * The LongestChain class contains the necessary data to perform
  * breadth first searches in accordance with the laboration, and
  * determine the longest chain. 
  *
@@ -17,7 +17,7 @@ class LongestChain {
 			       's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'å',
 			       'ä', 'ö', 'é' };
     private int alphabetLength = alphabet.length;
-
+    private WordRec latestFoundWord;
     public LongestChain(int wordLength) {
 	this.wordLength = wordLength;
 	q = new Queue();
@@ -41,26 +41,62 @@ class LongestChain {
      * @param x - the word of origin (WordRec)
      * @return the goal word if it's found, null otherwise (WordRec)
      */ 
+    
     private WordRec makeChildren(WordRec x) {
-	for (int i = 0; i < wordLength; i++) {
-	    for (int c = 0; c < alphabetLength; c++) {
-		if (alphabet[c] != x.getWord().charAt(i)) {
-		    String res = WordList.contains(x.getWord().substring(0,i) +
-						   alphabet[c] +
-						   x.getWord().substring(i+1));
-		    if (res != null && WordList.markAsUsedIfUnused(res)) {
-			WordRec wr = new WordRec(res, x);
-			if (isGoal(res)) {
-			    return wr;
-			}
-			q.enqueue(wr);
-		    }
-		}
-	    }
-	}
-	return null;
-    }
+   	 String wordFound;
+   	    char[] originalWord = x.getWord().toCharArray();
+   	    for (int i = 0; i < wordLength; i++) {
+   	        char originalCharacter = originalWord[i];
+   	        
+   	        for (int c = 0; c < alphabetLength; c++) {
+   	            if (alphabet[c] != originalCharacter) {
+   	                originalWord[i] = alphabet[c]; 
+   	                
+   	                wordFound = new String(originalWord); 
+   	                
 
+   	                if (WordList.contains(wordFound) != null && WordList.markAsUsedIfUnused(wordFound)) {
+   	                    WordRec wr = new WordRec(wordFound, x); 
+   	                    
+   	                    // Check if it's the goal word
+   	                    if (isGoal(wordFound)) {
+   	                        return wr;
+   	                    }
+   	                    q.enqueue(wr); 
+   	                }
+   	            }
+   	        }
+   	        
+   	        originalWord[i] = originalCharacter; 
+   	    }
+   	    
+   	    return null; 
+   	}
+    
+    private void makeAllChildren(WordRec x) {
+	    char[] originalWord = x.getWord().toCharArray();
+	    String wordFound;
+	    for (int i = 0; i < wordLength; i++) {
+	        char originalCharacter = originalWord[i];
+	        
+	        for (int c = 0; c < alphabetLength; c++) {
+	            if (alphabet[c] != originalCharacter) {
+	                originalWord[i] = alphabet[c]; 
+	                
+	                wordFound = new String(originalWord); 
+	                
+
+	                if (WordList.contains(wordFound) != null && WordList.markAsUsedIfUnused(wordFound)) {
+	                    WordRec wr = new WordRec(wordFound, x); 
+	                    latestFoundWord  = wr;
+	                    q.enqueue(wr); 
+	                }
+	            }
+	        }
+	        
+	        originalWord[i] = originalCharacter; 
+	    }   
+	}
 
     /**
      * BreadthFirst perform a BFS from startWord to find the shortest
@@ -82,17 +118,19 @@ class LongestChain {
 	q.empty();
 	q.enqueue(start);
 	try {
-	    while (true) {
-		WordRec wr = makeChildren((WordRec) q.dequeue());
-		if (wr != null) {
-		    return wr;
-		}
-	    }
-	} catch (Exception e) {
-	    return null;
-	}
+        while (!q.isEmpty()) {
+            WordRec wr = makeChildren((WordRec) q.dequeue());
+            if (wr != null) {
+                return wr; 
+            }
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+        return null; 
     }
+	return null;
 
+    }
     /**
      * CheckAllStartWords finds the shortest path from any word to
      * endWord. The longest of these shortest paths will be printed.
@@ -101,22 +139,31 @@ class LongestChain {
      * to end
      */
     public void checkAllStartWords(String endWord) {
-	int maxChainLength = 0;
-	WordRec maxChainRec = null;
-	for (int i = 0; i < WordList.size; i++) {
-	    WordRec x = breadthFirst(WordList.wordAt(i), endWord);
-	    if (x != null) {
-		int len = x.chainLength();
-		if (len > maxChainLength) {
-		    maxChainLength = len;
-		    maxChainRec = x;
-		    // x.PrintChain(); // skriv ut den hittills längsta kedjan
-		}
-	    }
-	}
-	System.out.println(endWord + ": " + maxChainLength + " ord");
-	if (maxChainRec != null) {
-	    maxChainRec.printChain();
-	}
-    }
+        // Initialize tracking for the longest shortest path
+    	WordList.eraseUsed();
+        int maxChainLength = 0;
+        latestFoundWord = null;
+        WordRec end = new WordRec(endWord, null);
+        WordList.markAsUsedIfUnused(endWord);
+        q.empty();
+        q.enqueue(end);
+        
+        try {
+            while (!q.isEmpty()) {
+            	makeAllChildren((WordRec) q.dequeue());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        
+
+        // Output the result: longest chain length and the chain itself
+
+        if (latestFoundWord != null) {
+            System.out.println(endWord + ": " + latestFoundWord.chainLength() + " ord");
+            latestFoundWord.reversePrintChain(); // Print the longest chain found
+        }
+    
+}
 }

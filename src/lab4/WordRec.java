@@ -57,6 +57,23 @@ class WordRec {
 	System.out.print(word);
     }
 
+    private void reversePrintChainHelp() {
+        printWord();  
+        if (parent != null) {
+            System.out.print(" -> ");
+            parent.reversePrintChainHelp();  
+        }
+    }
+    
+    public void reversePrintChain() {
+        printWord();  
+        if (parent != null) {
+            System.out.print(" -> ");
+            parent.reversePrintChainHelp(); 
+        }
+        System.out.println();
+    }
+    
     /**
      * Get the word in this particular WordRec object.
      *

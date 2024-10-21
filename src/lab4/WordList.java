@@ -2,14 +2,16 @@ package lab4;
 
 import java.util.Vector;
 import java.io.*;
-
+import java.util.HashSet;
+import java.util.HashMap;
 /**
  * The WordList class contains a word list and a data structure
  * containing already used words.
  */
 class WordList {
-    static private Vector<String> list; // ordlista
-    static private Vector<String> used; // databas med använda ord
+	static private HashSet<String> list; // ordlista
+    static private HashSet<String> used; // databas med använda ord
+    static private HashMap<Integer, String> mapWithWords;
     static int wordLength;
     static int size; // antal ord i ordlistan
 
@@ -25,7 +27,8 @@ class WordList {
     static public void read(int wordLength_, BufferedReader input) throws IOException {
 	wordLength = wordLength_;
 	size = 0;
-	list = new Vector<String>();
+	list = new HashSet<>();
+	mapWithWords = new HashMap<>();
 	while (true) {
 	    String s = input.readLine();
 	    if (s.equals("#")) {
@@ -37,9 +40,10 @@ class WordList {
 				   wordLength + " tecken.");
 	    }
 	    list.add(s);
+	    mapWithWords.put(size, s);
 	    size++;
 	}
-	used = new Vector<String>(size);
+	used = new HashSet<>(size);
     }
 
     /**
@@ -50,13 +54,7 @@ class WordList {
      * @return - the word located at the index in question, if it
      * exists. If it doesn't exist, null is returned (String)
      */
-    static public String wordAt(int index) {
-	if (index >= 0 && index < size) {
-	    return (String) list.elementAt(index);
-	}
-	return null;
-    }
-
+  
     /**
      * Contains finds w in the word list and returns it back if the
      * word exists, otherwise null is returned.
@@ -87,8 +85,11 @@ class WordList {
     /**
      * Clears the list of used words.
      */
-    static public void eraseUsed() {
-	used.clear();
-    }
+	static public void eraseUsed() {
+		used.clear();
+	}
 
+	static public String wordAt(int index) {
+            return mapWithWords.get(index);
+    }
 }
