@@ -1,13 +1,13 @@
 /**********************************************************************
- *  Mönsterigenkänning readme.txt
+ *  Mï¿½nsterigenkï¿½nning readme.txt
  **********************************************************************/
 
- Ungefärligt antal timmar spenderade på labben (valfritt):
+ Ungefï¿½rligt antal timmar spenderade pÃ¥ labben (valfritt):
 
 /**********************************************************************
- *  Empirisk    Fyll i tabellen nedan med riktiga körtider i sekunder
- *  analys      när det känns vettigt att vänta på hela beräkningen.
- *              Ge uppskattningar av körtiden i övriga fall.
+ *  Empirisk    Fyll i tabellen nedan med riktiga kï¿½rtider i sekunder
+ *  analys      nï¿½r det kï¿½nns vettigt att vï¿½nta pï¿½ hela berï¿½kningen.
+ *              Ge uppskattningar av kï¿½rtiden i ï¿½vriga fall.
  *
  **********************************************************************/
     
@@ -25,7 +25,7 @@
 
 
 /**********************************************************************
- *  Teoretisk   Ge ordo-uttryck för värstafallstiden för programmen som
+ *  Teoretisk   Ge ordo-uttryck fï¿½r vï¿½rstafallstiden fï¿½r programmen som
  *  analys      en funktion av N. Ge en kort motivering.
  *
  **********************************************************************/
